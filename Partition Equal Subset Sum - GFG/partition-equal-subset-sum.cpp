@@ -11,13 +11,12 @@ class Solution{
 public:
     int solve(int arr[], int N, int target, int i, int** dp){
         
-        if(target == 0) return 1;
         if(i == N){
             if(target == 0) return 1;
             return 0;
         }
         
-        
+        if(target == 0) return 1;
         
         if(dp[i][target] != -1) return dp[i][target];
         
