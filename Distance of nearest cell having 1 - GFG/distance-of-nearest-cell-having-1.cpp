@@ -10,16 +10,27 @@ class Solution
 	vector<vector<int>>nearest(vector<vector<int>>grid)
 	{
 	    // Code here
-	    vector<vector<int>> temp = grid;
+	    int** freq = new int*[grid.size()];
+	    for(int i = 0; i < grid.size(); i++) freq[i] = new int[grid[0].size()];
+	    
 	    queue<pair<int,int>> q;
-	    for(int i = 0; i < temp.size(); i++){
-	        for(int j = 0; j < temp[0].size(); j++){
-	            if(temp[i][j] == 1){
+	    for(int i = 0; i < grid.size(); i++){
+	        for(int j = 0; j < grid[0].size(); j++){
+	            if(grid[i][j] == 1){
 	                q.push(make_pair(i,j));
-	                temp[i][j] = -1;
-	            }
+	                grid[i][j] = 0;
+	                freq[i][j] = 1;
+	            }else freq[i][j] = 0;
 	        }
 	    }
+	    
+	    if(q.empty()){
+    	    for(int i = 0; i < grid.size(); i++){
+    	        for(int j = 0; j < grid[0].size(); j++) grid[i][j] = INT_MAX;
+    	    }
+	        return grid;
+	    }
+	    
 	    
 	    int dx[4] = {-1,0,1,0};
 	    int dy[4] = {0,1,0,-1};
@@ -31,21 +42,16 @@ class Solution
 	        for(int i = 0; i < 4; i++){
 	            int X = xc + dx[i];
 	            int Y = yc + dy[i];
-	            if(X < 0 || X >= temp.size() || Y < 0 || Y >= temp[0].size() || temp[X][Y] != 0) continue;
-	            else if(temp[xc][yc] == -1) temp[X][Y] = 1;
-	            else temp[X][Y] = temp[xc][yc] + 1;
-	            q.push(make_pair(X,Y));
+	            if(X < 0 || X >= grid.size() || Y < 0 || Y >= grid[0].size() || grid[X][Y] != 0) continue;
+	            if(freq[X][Y] == 0){
+	                grid[X][Y] = grid[xc][yc] + 1;
+	                freq[X][Y] = 1;
+	                q.push(make_pair(X,Y));
+	            }
 	        }
 	    }
 	    
-	    for(int i = 0; i < grid.size(); i++){
-	        for(int j = 0; j < grid[0].size(); j++){
-	            if(temp[i][j] == 0) temp[i][j] = INT_MAX;
-	            if(temp[i][j] == -1) temp[i][j] = 0;
-	        }
-	    }
-	    
-	    return temp;
+	    return grid;
 	    
 	}
 };
