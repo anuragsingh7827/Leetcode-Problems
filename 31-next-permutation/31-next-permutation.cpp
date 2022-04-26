@@ -2,36 +2,29 @@ class Solution {
 public:
     void nextPermutation(vector<int>& nums) {
         int size = nums.size();
-        int a = -1, b = -1;
-        // for(int i = size - 1; i >= 0; i--){
-        //     for(int j = i - 1; j >= 0; j--){
-        //         if(nums[j] < nums[i]){
-        //             if(j > a){
-        //                 a = j;
-        //                 b = i;
-        //             }
-        //         }
-        //     }
-        // }
-        stack<int> s;
-        for(int i = size - 1; i >= 0; i--){
-            if(s.empty()) s.push(i);
-            else if(nums[i] > nums[s.top()]) s.push(i);
-            else if(nums[i] < nums[s.top()]){
-                a = i;
-                while(!s.empty() && nums[i] < nums[s.top()]){
-                    b = s.top();
-                    s.pop();
-                }
+        int k = -1;
+        for(int i = size - 2; i >= 0; i--){
+            if(nums[i] < nums[i + 1]){
+                k = i;
                 break;
             }
         }
-        
-        if(a == -1) sort(nums.begin(),nums.end());
-        else{
-            swap(nums[a],nums[b]);
-            sort(nums.begin() + a + 1, nums.end());
+        if(k != -1){
+            int start = k + 1;
+            int end = size - 1;
+            int justGreater = k + 1;
+            while(start <= end){
+                int mid = (start + end) / 2;
+                if(nums[mid] > nums[k]){
+                    justGreater = mid;
+                    start = mid + 1;
+                }
+                else end = mid - 1;
+            }
+            swap(nums[k],nums[justGreater]);
         }
         
+        reverse(nums.begin() + k + 1, nums.end());
+
     }
 };
