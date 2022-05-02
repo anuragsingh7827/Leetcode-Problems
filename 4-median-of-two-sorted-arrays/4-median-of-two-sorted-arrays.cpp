@@ -3,45 +3,53 @@ public:
     double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
         int n = nums1.size();
         int m = nums2.size();
-
-        if(m < n) return findMedianSortedArrays(nums2,nums1);
-
-        int low = 0;
-        int high = n;
+        
+        int cnt = 1;
+        int i = 0;
+        int j = 0;
+        int mid = (n + m + 2) / 2;
+        int first = 0;
+        int second = 0;
         double ans;
-        while(low <= high){
-            int mid = (low + high) / 2;
-
-            int l1, l2, r1, r2;
-
-            int l1idx = mid - 1;
-            int l2idx = ((n + m + 1) / 2 ) - mid - 1;
-            int r1idx = mid;
-            int r2idx = ((n + m + 1) / 2 ) - mid;
-
-            if(l1idx < 0) l1 = INT_MIN;
-            else l1 = nums1[l1idx];
-
-            if(l2idx < 0) l2 = INT_MIN;
-            else l2 = nums2[l2idx];
-
-            if(r1idx >= n) r1 = INT_MAX;
-            else r1 = nums1[r1idx];
-
-            if(r2idx >= m) r2 = INT_MAX;
-            else r2 = nums2[r2idx];
-
-            if(l1 > r2) high = mid - 1;
-            else if(l2 > r1) low = mid + 1;
-            else if(l1 <= r2 && l2 <= r1){
+        
+        while(i < n && j < m){
+            if(cnt == mid - 1) first = min(nums1[i],nums2[j]);
+            else if(cnt == mid){
                 if((n + m) % 2 == 0){
-                    double x = max(l1,l2);
-                    double y = min(r1,r2);
-                    ans = (x + y) / 2;
-                }else ans = max(l1,l2);
-                break;
+                    second = min(nums1[i],nums2[j]);
+                    ans = (first + second) / 2.0;
+                }else ans = min(nums1[i],nums2[j]);
             }
+            
+            if(nums1[i] <= nums2[j]) i++;
+            else j++;
+            cnt++;
         }
+        
+        while(i < n){
+            if(cnt == mid - 1) first = nums1[i];
+            if(cnt == mid){
+                if((n + m) % 2 == 0){
+                    second = nums1[i];
+                    ans = (first + second) / 2.0;
+                }else ans = nums1[i];
+            }
+            i++;
+            cnt++;
+        }
+        
+        while(j < m){
+            if(cnt == mid - 1) first = nums2[j];
+            if(cnt == mid){
+                if((n + m) % 2 == 0){
+                    second = nums2[j];
+                    ans = (first + second) / 2.0;
+                }else ans = nums2[j];
+            }
+            j++;
+            cnt++;
+        }
+        
         return ans;
     }
 };
