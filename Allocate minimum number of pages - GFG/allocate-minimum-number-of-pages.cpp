@@ -36,7 +36,7 @@ class Solution
             lo = min(lo,A[i]);
             hi += A[i];
         }
-        int ans = -1;
+        int ans = INT_MAX;
         while(lo <= hi){
             int mid = lo + ((hi - lo) / 2);
             if(studentsAllocatedMidNoOfPages(A,N,mid,M) <= M){
