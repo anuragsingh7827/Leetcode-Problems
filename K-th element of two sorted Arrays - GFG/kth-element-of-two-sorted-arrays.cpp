@@ -8,9 +8,8 @@ class Solution{
     public:
     int kthElement(int arr1[], int arr2[], int n, int m, int k)
     {
-        
-        // if(m < n) return kthElement(arr2,arr1,m,n,k);
-        
+        //we always take arr1 of smaller size so that T.C. reduces to O(log(min(n,m));
+        if(n > m) return kthElement(arr2,arr1,m,n,k);
         //slight trickiness in finding lo and hi variables
         int lo;
         if(k - m >= 0) lo = k - m;
