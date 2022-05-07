@@ -2,12 +2,12 @@ class Solution {
 public:
     vector<int> twoSum(vector<int>& nums, int target) {
         int n = nums.size();
-        vector<pair<int,int>> v;
+        vector<pair<int,int>> v(n);
         
-        for(int i = 0; i < n; i++) v.push_back(make_pair(nums[i],i));
+        for(int i = 0; i < n; i++) v[i] = {nums[i],i};
         sort(v.begin(),v.end());
         
-        vector<int> ans;
+        vector<int> ans(2);
         int i = 0;
         int j = n - 1;
         while(i < j){
@@ -16,8 +16,8 @@ public:
             if(x.first + y.first < target) i++;
             else if(x.first + y.first > target) j--;
             else{
-                ans.push_back(x.second);
-                ans.push_back(y.second);
+                ans[0] = x.second;
+                ans[1] = y.second;
                 break;
             }
         }
