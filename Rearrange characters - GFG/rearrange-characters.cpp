@@ -22,8 +22,6 @@ class Solution
         
         for(auto &node : h) v.push_back(make_pair(node.second,node.first));
         
-        // sort(v.begin(),v.end(),comp);
-        
         int m = v.size();
         string temp = "";
         int i = 0;
@@ -45,8 +43,6 @@ class Solution
         
         if(i >= m && j >= m) return temp;
         else{
-            if(temp == "") return "-1";
-            
             string ans = "";
             
             int len = temp.length();
