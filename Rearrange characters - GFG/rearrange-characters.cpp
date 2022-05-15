@@ -7,9 +7,6 @@ const int MAX_CHAR = 26;
 class Solution
 {
     public:
-    static bool comp(pair<int,char> a, pair<int,char> b){
-        return a.first > b.first;
-    }
     string rearrangeString(string str)
     {
         //code here
