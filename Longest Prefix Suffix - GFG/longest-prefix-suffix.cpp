@@ -14,25 +14,18 @@ class Solution{
 	int lps(string s) {
 	    // Your code goes here
 	    int n = s.length();
-	    vector<int> ans(n);
+	    vector<int> prefix(n,0);
 	    
-	    ans[0] = 0;
-	    int i = 0;
-	    int j = 1;
-	    while(j < n){
-	        if(s[i] == s[j]){
-	            ans[j] = i + 1;
-	            i++;
-	            j++;
-	        }else{
-	            i = ans[i - 1];
-	            if(s[i] != s[j]){
-	                ans[j] = 0;
-	                j++;
-	            }
-	        }
+	    for(int i = 1; i < n; i++){
+	        int j = prefix[i - 1];
+	        
+	        while(j > 0 && s[i] != s[j]) j = prefix[j - 1];
+	        
+	        if(s[i] == s[j]) prefix[i] = j + 1;
+	        
 	    }
-	    return ans[n - 1];
+	    
+	    return prefix[n - 1];
 	}
 };
 
