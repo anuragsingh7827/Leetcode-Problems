@@ -10,39 +10,17 @@ using namespace std;
 
 class Solution{
   public:
-    static bool comp(pair<string,string> a, pair<string,string> b){
-        return a.first < b.first;
-    }
     vector<vector<string> > Anagrams(vector<string>& string_list) {
         //code here
         int n = string_list.size();
-        
-        vector<pair<string,string>> v(n);
-        
+        unordered_map<string,vector<string>> h;
         for(int i = 0; i < n; i++){
-            string word = string_list[i];
-            string wordCopy = word;
-            sort(wordCopy.begin(),wordCopy.end());
-            v[i] = make_pair(wordCopy,word);
+            string s = string_list[i];
+            sort(s.begin(),s.end());
+            h[s].push_back(string_list[i]);
         }
-        
-        stable_sort(v.begin(),v.end(),comp);
-
         vector<vector<string>> ans;
-        
-        vector<string> group;
-        group.push_back(v[0].second);
-        for(int i = 1; i < n; i++){
-            if(v[i].first == v[i - 1].first) group.push_back(v[i].second);
-            else{
-                ans.push_back(group);
-                group.erase(group.begin(),group.end());
-                group.push_back(v[i].second);
-            }
-        }
-        ans.push_back(group);
-        
-        sort(ans.begin(),ans.end());
+        for(auto &node : h) ans.push_back(node.second);
         
         return ans;
     }
