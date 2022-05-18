@@ -12,14 +12,15 @@ using namespace std;
 // B : vector of available strings
 
 class Solution
-{   bool exist(string word, vector<string> B){
-        int m = B.size();
-        for(int i = 0; i < m; i++){
-            if(B[i] == word) return true;
-        }
-        return false;
-    }
-    int solve(string A, int i, vector<string> B, int n){
+{   
+    // bool exist(string word, vector<string> B){
+    //     int m = B.size();
+    //     for(int i = 0; i < m; i++){
+    //         if(B[i] == word) return true;
+    //     }
+    //     return false;
+    // }
+    int solve(string A, int i, vector<string> B, int n, unordered_map<string,bool> h){
         
         if(A[i] == '\0') return true;
         
@@ -27,7 +28,7 @@ class Solution
         string word = "";
         for(int j = i; j < n; j++){
             word.push_back(A[j]);
-            if(exist(word,B) && solve(A,j + 1,B,n)) return true;
+            if(h[word] && solve(A,j + 1,B,n,h)) return true;
         }
         return false;
     }
@@ -35,7 +36,12 @@ public:
     int wordBreak(string A, vector<string> &B) {
         //code here
         int n = A.length();
-        if(solve(A,0,B,n)) return 1;
+        int m = B.size();
+        
+        unordered_map<string,bool> h;
+        for(int i = 0; i < m; i++) h[B[i]] = true;
+        
+        if(solve(A,0,B,n,h)) return 1;
         return 0;
         
     }
