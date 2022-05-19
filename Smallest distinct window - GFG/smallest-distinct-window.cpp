@@ -24,15 +24,15 @@ class Solution{
         int j = 0;
         int ans = INT_MAX;
         while(j < n){
-            if(h[str[j]] == 1) cnt--;
             h[str[j]]--;
+            if(h[str[j]] == 0) cnt--;
             
             if(cnt > 0) j++;
             else if(cnt == 0){
                 while(cnt == 0){
                     ans = min(ans,j - i + 1);
                     h[str[i]]++;
-                    if(h[str[i]] == 1) cnt++;
+                    if(h[str[i]] > 0) cnt++;
                     i++;
                 }
                 j++;
