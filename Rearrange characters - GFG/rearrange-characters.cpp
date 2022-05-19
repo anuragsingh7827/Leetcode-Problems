@@ -15,60 +15,47 @@ class Solution
         unordered_map<char,int> h;
         for(int i = 0; i < n; i++) h[str[i]]++;
         
-        vector<pair<int,char>> v;
-        
-        for(auto &node : h) v.push_back(make_pair(node.second,node.first));
-        
-        int m = v.size();
-        string temp = "";
-        int i = 0;
-        int j = 1;
-        
-        while(i < m && j < m){
-            if(v[i].first < v[j].first) swap(v[i],v[j]);
-            while(v[j].first > 0){
-                temp.push_back(v[i].second);
-                temp.push_back(v[j].second);
-                v[i].first--;
-                v[j].first--;
+        int maxCnt = INT_MIN;
+        char ch = '\0';
+        for(auto &node : h){
+            if(node.second > maxCnt){
+                maxCnt = node.second;
+                ch = node.first;
             }
-            if(v[i].first == 0){
-                i = j + 1;
-                j = i + 1;
-            }else if(v[j].first == 0) j++;
         }
         
-        if(i >= m && j >= m) return temp;
-        else{
-            string ans = "";
-            
-            int len = temp.length();
-            int p = 0;
-            int q = 1;
-            while(v[i].first > 0 && p < len && q < len){
-                if(temp[p] != v[i].second && temp[q] != v[i].second){
-                    ans.push_back(temp[p]);
-                    ans.push_back(v[i].second);
-                    v[i].first--;
-                    p++;
-                    q++;
-                }else{
-                    ans.push_back(temp[p]);
-                    p++;
-                    q++;
-                }
-            }
-            while(p < len){
-                ans.push_back(temp[p]);
-                p++;
-            }
-            if(v[i].first == 0) return ans;
-            else if(v[i].first == 1 && v[i].second != temp[len - 1]){
-                ans.push_back(v[i].second);
-                return ans;
-            }
-            return "-1";
+        char* arr = new char[n]{'\0'};
+        int i;
+        for(i = 0; i < n; i += 2){
+            arr[i] = ch;
+            h[ch]--;
+            if(h[ch] == 0) break;
         }
+        
+        i += 2;
+        if(i >= n) i = 1;
+        h.erase(ch);
+        
+        for(auto &node : h){
+            char newCh = node.first;
+            while(h[newCh] > 0 && i < n){
+                arr[i] = newCh;
+                h[newCh]--;
+                i += 2;
+                if(i >= n) i = 1;
+            }
+
+        }
+        string ans = "";       
+        for(int j = 0; j < n; j++){
+            if(arr[j] == '\0') return "-1";
+            else ans.push_back(arr[j]);
+        }
+        
+        delete[] arr;
+        arr = NULL;
+        
+        return ans;
     }
     
 };
