@@ -25,14 +25,14 @@ class Solution
         }
         
         char* arr = new char[n]{'\0'};
-        int i;
-        for(i = 0; i < n; i += 2){
+        
+        int i = 0;
+        while(h[ch] > 0 && i < n){
             arr[i] = ch;
             h[ch]--;
-            if(h[ch] == 0) break;
+            i += 2;
         }
-        
-        i += 2;
+
         if(i >= n) i = 1;
         h.erase(ch);
         
