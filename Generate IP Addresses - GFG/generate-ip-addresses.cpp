@@ -24,19 +24,7 @@ class Solution{
         
         string part = "";
         for(int j = i; j < n; j++){
-            // if(part == "0") return false;
-            // else{
-            //     part.push_back(s[j]);
-            //     if(stoi(part) >= 0 && stoi(part) <= 255){
-            //         part.push_back('.');
-            //         address.push_back(part);
-            //         if(solve(s,n,ans,address,dots - 1,j + 1)) return true;
-            //         address.pop_back();
-            //         part.pop_back();
-            //     }else break;
-            // }
-            
-            if(part == "" || part[0] != '0'){
+            if(part == "" || part != "0"){
                 part.push_back(s[j]);
                 if(stoi(part) >= 0 && stoi(part) <= 255){
                     part.push_back('.');
