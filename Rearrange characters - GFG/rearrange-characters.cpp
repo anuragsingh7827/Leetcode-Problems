@@ -33,8 +33,10 @@ class Solution
             i += 2;
         }
 
-        if(i >= n) i = 1;
-        h.erase(ch);
+        if(i >= n){
+            i = 1;
+            h.erase(ch);
+        }
         
         for(auto &node : h){
             char newCh = node.first;
