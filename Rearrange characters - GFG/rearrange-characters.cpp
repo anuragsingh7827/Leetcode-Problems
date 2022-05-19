@@ -50,8 +50,11 @@ class Solution
         }
         string ans = "";       
         for(int j = 0; j < n; j++){
-            if(arr[j] == '\0') return "-1";
-            else ans.push_back(arr[j]);
+            if(arr[j] == '\0'){
+                delete[] arr;
+                arr = NULL;
+                return "-1";
+            }else ans.push_back(arr[j]);
         }
         
         delete[] arr;
