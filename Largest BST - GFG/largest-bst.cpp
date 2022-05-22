@@ -121,16 +121,19 @@ class Solution{
         
         info left = solve(root -> left,ans);
         info right = solve(root -> right,ans);
-        
-        node.size = left.size + right.size + 1;
-        node.largest = max(root -> data,right.largest);
-        node.smallest = min(root -> data,left.smallest);
-        
+    
         if(left.isBST && right.isBST && root -> data > left.largest && root -> data < right.smallest){
             node.isBST = true;
+            node.size = left.size + right.size + 1;
+            node.largest = max(root -> data,right.largest);
+            node.smallest = min(root -> data,left.smallest);
             ans = max(ans,node.size);
-        }    
-        else node.isBST = false;
+        }else{
+            node.isBST = false;
+            node.size = max(left.size,right.size);
+            node.largest = 0;
+            node.smallest = 0;
+        }
         
         return node;
         
