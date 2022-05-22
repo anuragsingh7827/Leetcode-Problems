@@ -153,22 +153,20 @@ int main()
 
 
 //Function that constructs BST from its preorder traversal.
-Node* insertion(Node* root, int data){
-    if(root == NULL){
-        root = newNode(data);
-        return root;
-    }
+Node* solve(int pre[], int &i, int bound, int size){
+    if(i == size || pre[i] > bound) return NULL;
     
-    if(data <= root -> data) root -> left = insertion(root -> left,data);
-    else if(data > root -> data) root -> right = insertion(root -> right,data);
+    Node* root = newNode(pre[i]);
+    i++;
+    
+    root -> left = solve(pre,i,root -> data,size);
+    root -> right = solve(pre,i,bound,size);
     
     return root;
 }
 Node* post_order(int pre[], int size)
 {
     //code here
-    Node* root = NULL;
-    for(int i = 0; i < size; i++) root = insertion(root,pre[i]);
-    
-    return root;
+    int i = 0;
+    return solve(pre,i,INT_MAX,size);
 }
