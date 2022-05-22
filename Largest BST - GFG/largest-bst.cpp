@@ -131,8 +131,8 @@ class Solution{
         }else{
             node.isBST = false;
             node.size = max(left.size,right.size);
-            node.largest = 0;
-            node.smallest = 0;
+            node.largest = INT_MAX;
+            node.smallest = INT_MIN;
         }
         
         return node;
