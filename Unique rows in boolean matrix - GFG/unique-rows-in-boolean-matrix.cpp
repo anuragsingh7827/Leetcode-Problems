@@ -34,7 +34,7 @@ int main()
 vector<vector<int>> uniqueRow(int M[MAX][MAX],int row,int col)
 {
     //Your code here
-    map<string,bool> h;
+    unordered_map<string,bool> h;
     for(int i = 0; i < row; i++){
         string s = "";
         for(int j = 0; j < col; j++) s.push_back(M[i][j] + '0');
