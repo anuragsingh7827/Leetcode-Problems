@@ -29,29 +29,62 @@ int main()
 }
 // } Driver Code Ends
 
-
+class node{
+public:
+    int data;
+    bool isTerminal;
+    node* h[2];
+    node(int data){
+        this -> data = data;
+        isTerminal = false;
+        h[0] = NULL;
+        h[1] = NULL;
+    }
+};
+class trie{
+public:
+    node* root;
+    trie(){
+        root = new node(-1);
+    }
+    void insert(int arr[], int cols){
+        node* temp = root;
+        for(int i = 0; i < cols; i++){
+            int bit = arr[i];
+            if(temp -> h[bit]) temp = temp -> h[bit];
+            else{
+                temp -> h[bit] = new node(bit);
+                temp = temp -> h[bit];
+            }
+        }
+        temp -> isTerminal = true;
+    }
+    vector<int> search(int arr[], int cols){
+        vector<int> row;
+        node* temp = root;
+        for(int i = 0; i < cols; i++){
+            int bit = arr[i];
+            row.push_back(bit);
+            temp = temp -> h[bit];
+        }
+        if(temp -> isTerminal){
+            temp -> isTerminal = false;
+            return row;
+        }else return {};
+    }
+};
 /*You are required to complete this function*/
 vector<vector<int>> uniqueRow(int M[MAX][MAX],int row,int col)
 {
     //Your code here
-    unordered_map<string,bool> h;
-    for(int i = 0; i < row; i++){
-        string s = "";
-        for(int j = 0; j < col; j++) s.push_back(M[i][j] + '0');
-        h[s] = true;
-    }
+    trie t;
+    for(int i = 0; i < row; i++) t.insert(M[i],col);
     
     vector<vector<int>> ans;
+    node* temp = t.root;
     for(int i = 0; i < row; i++){
-        string s = "";
-        for(int j = 0; j < col; j++) s.push_back(M[i][j] + '0');
-        
-        if(h[s]){
-            vector<int> v(col);
-            for(int i = 0; s[i] != '\0'; i++) v[i] = s[i] - '0';
-            ans.push_back(v);
-            h[s] = false;
-        }
+        vector<int> v = t.search(M[i],col);
+        if(v.size() > 0) ans.push_back(v);
     }
     
     return ans;
