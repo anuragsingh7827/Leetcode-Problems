@@ -125,9 +125,7 @@ public:
         
         int n = in.size();
         int ans = 0;
-        for(int i = 0; i < n; i++){
-            if(h[x - in[i]]) ans++;
-        }
+        for(int i = 0; i < n; i++) if(h[x - in[i]]) ans++;
         
         return ans;
     }
