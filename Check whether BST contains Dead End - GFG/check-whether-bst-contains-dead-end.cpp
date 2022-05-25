@@ -104,16 +104,13 @@ Node * right, * left;
 bool solve(Node* root, int lower, int upper){
     if(root == NULL) return false;
     
-    int temp1 = root -> data - 1;
-    int temp2 = root -> data + 1;
+    if(lower == upper) return true;
     
-    if(temp1 == lower && temp2 == upper) return true;
-    
-    return solve(root -> left,lower,root -> data) || solve(root -> right,root -> data,upper);
+    return solve(root -> left,lower,(root -> data) - 1) || solve(root -> right,(root -> data) + 1,upper);
     
 }
 bool isDeadEnd(Node *root)
 {
     //Your code here
-    return solve(root,0,INT_MAX);
+    return solve(root,1,INT_MAX);
 }
