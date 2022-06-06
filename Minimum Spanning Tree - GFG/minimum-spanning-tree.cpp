@@ -13,12 +13,10 @@ class Solution
     {
         // code here
         int* keys = new int[V];
-        int* parent = new int[V];
         bool* mst = new bool[V];
     
         for(int i = 0; i < V; i++){
             keys[i] = INT_MAX;
-            parent[i] = -1;
             mst[i] = false;
         }
     
