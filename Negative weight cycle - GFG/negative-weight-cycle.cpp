@@ -8,8 +8,8 @@ public:
 	int isNegativeWeightCycle(int n, vector<vector<int>>edges){
 	    // Code here
 	    int m = edges.size();
-	    vector<int> dist(n,0);
-	    
+	    vector<int> dist(n,10000000);
+	    dist[0] = 0;
 	    for(int i = 1; i <= n - 1; i++){
 	        for(int j = 0; j < m; j++){
 	            int u = edges[j][0];
