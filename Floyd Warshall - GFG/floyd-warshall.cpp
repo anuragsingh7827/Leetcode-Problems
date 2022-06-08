@@ -17,11 +17,9 @@ class Solution {
 	        for(int i = 0; i < n; i++){
 	            for(int j = 0; j < n; j++){
 	                if(matrix[i][j] == -1 && k == 0) matrix[i][j] = 1e9;
-	                if((i != k) && (j != k)){
-	                    int oldVal = matrix[i][j];
-	                    int newVal = matrix[i][k] + matrix[k][j];
-	                    matrix[i][j] = min(oldVal,newVal);
-	                }
+                    int oldVal = matrix[i][j];
+                    int newVal = matrix[i][k] + matrix[k][j];
+                    matrix[i][j] = min(oldVal,newVal);
 	            }
 	        }
 	    }
