@@ -5,13 +5,24 @@ using namespace std;
  // } Driver Code Ends
 class Solution {
 public:
-    bool solve(int start, int colorVal, int parent, vector<int> adj[], vector<int> &color){
-        color[start] = colorVal;
+    bool solve(int start, vector<int> adj[], vector<int> &color){
+        queue<pair<int,int>> q;
+        q.push({start,0});
+        color[start] = 0;
         
-        for(auto &it : adj[start]){
-            if(color[it] == -1){
-                if(solve(it,1 - colorVal,start,adj,color) == false) return false;
-            }else if(it != parent && color[it] == colorVal) return false;
+        while(!q.empty()){
+            auto p = q.front();
+            q.pop();
+            
+            int node = p.first;
+            int colorVal = p.second;
+            
+            for(auto &it : adj[node]){
+                if(color[it] == -1){
+                    color[it] = 1 - colorVal;
+                    q.push({it,color[it]});
+                }else if(color[it] == colorVal) return false;
+            }
         }
         
         return true;
@@ -21,7 +32,7 @@ public:
 	    vector<int> color(V,-1);
 	    for(int i = 0; i < V; i++){
 	        if(color[i] == -1){
-	            if(solve(i,0,-1,adj,color) == false) return false;
+	            if(solve(i,adj,color) == false) return false;
 	        }
 	    }
 	    
