@@ -6,13 +6,13 @@ using namespace std;
 class Solution
 {
     public:
-    bool solve(int start, vector<int> adj[], int cnt, int n, int s, vector<bool> visited){
+    bool solve(int start, vector<int> adj[], int cnt, int n, vector<bool> visited){
         visited[start] = true;
         cnt++;
         
         for(auto &it : adj[start]){
             if(!visited[it]){
-                if(solve(it,adj,cnt,n,s,visited)) return true;
+                if(solve(it,adj,cnt,n,visited)) return true;
             }
         }
         
@@ -33,9 +33,8 @@ class Solution
         
         vector<bool> visited(N + 1,false);
         for(int i = 1; i <= N; i++){
-            if(solve(i,adj,0,N,i,visited)) return true;
+            if(solve(i,adj,0,N,visited)) return true;
         }
-        // return solve(1,adj,0,N,1,visited);
         return false;
     }
 };
