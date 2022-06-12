@@ -10,13 +10,13 @@ class Solution
         visited[start] = true;
         cnt++;
         
+        if(cnt == n) return true;
+        
         for(auto &it : adj[start]){
             if(!visited[it]){
                 if(solve(it,adj,cnt,n,visited)) return true;
             }
         }
-        
-        if(cnt == n) return true;
         
         return false;
     }
