@@ -20,17 +20,19 @@ public:
     long long countFriendsPairings(int n) 
     { 
         // code here
-        vector<long long> dp(n + 1, 0);
-        dp[0] = dp[1] = 1;
+        long long prev2, prev;
+        prev2 = prev = 1;
         
         for(int i = 2; i <= n; i++){
-            long long op1 = dp[i - 1] % mod ;
-            long long op2 = (((i - 1) % mod) * (dp[i - 2] % mod)) % mod;
+            long long op1 = prev % mod ;
+            long long op2 = (((i - 1) % mod) * (prev2 % mod)) % mod;
             
-            dp[i] = ((op1 % mod) + (op2 % mod)) % mod;
+            long long cur = ((op1 % mod) + (op2 % mod)) % mod;
+            prev2 = prev;
+            prev = cur;
         }
         
-        long long ans = dp[n] % mod;
+        long long ans = prev % mod;
         
         return ans;
     }
