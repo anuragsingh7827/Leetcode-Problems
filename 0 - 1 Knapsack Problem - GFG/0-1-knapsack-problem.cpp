@@ -28,23 +28,24 @@ class Solution
     int knapSack(int W, int wt[], int val[], int n) 
     { 
        // Your code here
-       vector<vector<int>> dp(n, vector<int> (W + 1, 0));
+       vector<int> prev(W + 1, 0), cur(W + 1, 0);
        
-       for(int j = wt[0]; j <= W; j++) dp[0][j] = val[0];
+       for(int j = wt[0]; j <= W; j++) prev[j] = val[0];
        
        for(int ind = 1; ind < n; ind++){
            for(int tar = 1; tar <= W; tar++){
-                int notTake = dp[ind - 1][tar];
+                int notTake = prev[tar];
                 int take = INT_MIN;
                 if(tar >= wt[ind]){
-                    take = val[ind] + dp[ind - 1][tar - wt[ind]];
+                    take = val[ind] + prev[tar - wt[ind]];
                 }
                 
-                dp[ind][tar] = max(take,notTake);
+                cur[tar] = max(take,notTake);
            }
+           prev = cur;
        }
        
-       return dp[n - 1][W];
+       return prev[W];
     }
 };
 
