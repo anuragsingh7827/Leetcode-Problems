@@ -8,7 +8,7 @@
 <pre><span style="font-size:18px"><strong>Input:</strong> N = 4
 arr = {1, 5, 11, 5}
 <strong>Output:</strong> YES
-<strong>Explaination:</strong> 
+<strong>Explanation:</strong> 
 The two parts are {1, 5, 5} and {11}.</span>
 </pre>
 
@@ -17,7 +17,7 @@ The two parts are {1, 5, 5} and {11}.</span>
 <pre><span style="font-size:18px"><strong>Input:</strong> N = 3
 arr = {1, 3, 5}
 <strong>Output:</strong> NO
-<strong>Explaination: </strong>This array can never be 
+<strong>Explanation: </strong>This array can never be 
 partitioned into two such parts.</span></pre>
 
 <p><br>
