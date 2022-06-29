@@ -20,25 +20,27 @@ class Solution {
     long long int count(int arr[], int m, int n) {
 
         // code here.
-        vector<vector<long long>> dp(m, vector<long long> (n + 1, 0));
+        vector<long long> prev(n + 1, 0), cur(n + 1, 0);
         
-        for(int i = 0; i < m; i++) dp[i][0] = 1;
+        prev[0] = 1;
         
         for(int i = 0; i <= n; i++){
-            if(i % arr[0] == 0) dp[0][i] = 1;
+            if(i % arr[0] == 0) prev[i] = 1;
         }
         
         for(int ind = 1; ind < m; ind++){
+            cur[0] = 1;
             for(int tar = 1; tar <= n; tar++){
-                long long notTake = dp[ind - 1][tar];
+                long long notTake = prev[tar];
                 long long take = 0;
-                if(tar >= arr[ind]) take = dp[ind][tar - arr[ind]];
+                if(tar >= arr[ind]) take = cur[tar - arr[ind]];
                 
-                dp[ind][tar] = notTake + take;
+                cur[tar] = notTake + take;
             }
+            prev = cur;
         }
         
-        return dp[m - 1][n];
+        return prev[n];
     }
 };
 
