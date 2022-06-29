@@ -30,9 +30,27 @@ public:
         
         if(sum & 1) return 0;
         
-        vector<vector<int>> dp(N, vector<int>((sum / 2) + 1, -1));
+        int target = sum / 2;
         
-        return solve(N - 1,sum / 2,arr,dp);
+        vector<vector<int>> dp(N, vector<int>(target + 1, 0));
+        
+        for(int ind = 0; ind < N; ind++) dp[ind][0] = 1;
+        for(int tar = 1; tar <= target; tar++){
+            if(tar == arr[0]) dp[0][tar] = 1;
+        }
+        
+        for(int ind = 1; ind < N; ind++){
+            for(int tar = 1; tar <= target; tar++){
+                int notTake = dp[ind - 1][tar];
+        
+                int take = 0;
+                if(tar >= arr[ind]) take = dp[ind- 1][tar - arr[ind]];
+                
+                dp[ind][tar] = notTake || take;
+            }
+        }
+        
+        return dp[N - 1][target];
     }
 };
 
