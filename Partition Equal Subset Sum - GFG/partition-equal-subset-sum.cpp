@@ -32,25 +32,27 @@ public:
         
         int target = sum / 2;
         
-        vector<vector<int>> dp(N, vector<int>(target + 1, 0));
+        vector<int> prev(target + 1, 0), cur(target + 1, 0);
         
-        for(int ind = 0; ind < N; ind++) dp[ind][0] = 1;
+        prev[0] = 1;
         for(int tar = 1; tar <= target; tar++){
-            if(tar == arr[0]) dp[0][tar] = 1;
+            if(tar == arr[0]) prev[tar] = 1;
         }
         
         for(int ind = 1; ind < N; ind++){
+            cur[0] = 1;
             for(int tar = 1; tar <= target; tar++){
-                int notTake = dp[ind - 1][tar];
+                int notTake = prev[tar];
         
                 int take = 0;
-                if(tar >= arr[ind]) take = dp[ind- 1][tar - arr[ind]];
+                if(tar >= arr[ind]) take = prev[tar - arr[ind]];
                 
-                dp[ind][tar] = notTake || take;
+                cur[tar] = notTake || take;
             }
+            prev = cur;
         }
         
-        return dp[N - 1][target];
+        return prev[target];
     }
 };
 
