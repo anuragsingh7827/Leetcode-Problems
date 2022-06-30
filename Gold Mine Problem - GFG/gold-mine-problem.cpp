@@ -25,9 +25,25 @@ public:
     {
         // code here
         int ans = INT_MIN;
-        vector<vector<int>> dp(n + 1, vector<int> (m, -1));
+        vector<vector<int>> dp(n + 2, vector<int> (m, 0));
+        
+        for(int j = 1; j < m; j++) dp[0][j] = dp[n + 1][j] = -1e9;
+        
+        for(int i = 1; i <= n; i++) dp[i][0] = M[i - 1][0];
+        
+        for(int j = 1; j < m; j++){
+            for(int i = 1; i <= n; i++){
+                int op1 = M[i - 1][j] + dp[i - 1][j - 1];
+                int op2 = M[i - 1][j] + dp[i][j - 1];
+                int op3 = M[i - 1][j] + dp[i + 1][j - 1];
+                
+                dp[i][j] = max(op1,max(op2,op3));
+            }
+        }
+        
+        
         for(int i = 1; i < n + 1; i++){
-            ans = max(ans,solve(i,m - 1,n,M,dp));
+            ans = max(ans,dp[i][m - 1]);
         }
         
         return ans;
