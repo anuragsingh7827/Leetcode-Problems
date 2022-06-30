@@ -35,27 +35,29 @@ class Solution{
           //Code Here
         int ans = INT_MAX;
         int m = a[0].size();
-        vector<vector<int>> dp(2, vector<int> (m, 0));
+        vector<int> prev(2, 0);
         
-        dp[0][0] = a[0][0] + e[0];
-        dp[1][0] = a[1][0] + e[1];
+        prev[0] = a[0][0] + e[0];
+        prev[1] = a[1][0] + e[1];
         
         for(int j = 1; j < m; j++){
+            int temp;
             for(int i = 0; i < 2; i++){
                 if(i == 0){
-                    int st = a[0][j] + dp[i][j - 1];
-                    int dg = a[0][j] + T[1][j] + dp[i + 1][j - 1];
-                    dp[i][j] = min(st,dg);
+                    int st = a[0][j] + prev[i];
+                    int dg = a[0][j] + T[1][j] + prev[i + 1];
+                    temp = prev[i];
+                    prev[i] = min(st,dg);
                 }else{
-                    int st = a[1][j] + dp[i][j - 1];
-                    int dg = a[1][j] + T[0][j] + dp[i - 1][j - 1];
-                    dp[i][j] = min(st,dg);
+                    int st = a[1][j] + prev[i];
+                    int dg = a[1][j] + T[0][j] + temp;
+                    prev[i] = min(st,dg);
                 }
             }
         }
         
         
-        for(int i = 0; i < 2; i++) ans = min(ans,x[i] + dp[i][m - 1]);
+        for(int i = 0; i < 2; i++) ans = min(ans,x[i] + prev[i]);
     
         return ans;
     }
