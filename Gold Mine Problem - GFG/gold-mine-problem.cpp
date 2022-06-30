@@ -25,25 +25,27 @@ public:
     {
         // code here
         int ans = INT_MIN;
-        vector<vector<int>> dp(n + 2, vector<int> (m, 0));
+        vector<int> prev(n + 2, 0), cur(n + 2, 0);
         
-        for(int j = 1; j < m; j++) dp[0][j] = dp[n + 1][j] = -1e9;
+        prev[0] = prev[n + 1] = -1e9;
         
-        for(int i = 1; i <= n; i++) dp[i][0] = M[i - 1][0];
+        for(int i = 1; i <= n; i++) prev[i] = M[i - 1][0];
         
         for(int j = 1; j < m; j++){
+            cur[0] = cur[n + 1] = -1e9;
             for(int i = 1; i <= n; i++){
-                int op1 = M[i - 1][j] + dp[i - 1][j - 1];
-                int op2 = M[i - 1][j] + dp[i][j - 1];
-                int op3 = M[i - 1][j] + dp[i + 1][j - 1];
+                int op1 = M[i - 1][j] + prev[i - 1];
+                int op2 = M[i - 1][j] + prev[i];
+                int op3 = M[i - 1][j] + prev[i + 1];
                 
-                dp[i][j] = max(op1,max(op2,op3));
+                cur[i] = max(op1,max(op2,op3));
             }
+            prev = cur;
         }
         
         
         for(int i = 1; i < n + 1; i++){
-            ans = max(ans,dp[i][m - 1]);
+            ans = max(ans,prev[i]);
         }
         
         return ans;
