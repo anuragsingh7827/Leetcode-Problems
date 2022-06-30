@@ -34,8 +34,24 @@ class Solution
         seg[1] = y;
         seg[2] = z;
         
-        vector<vector<int>> dp(3, vector<int> (n + 1, -1));
-        int ans = solve(2,n,seg,dp);
+        vector<vector<int>> dp(3, vector<int> (n + 1, 0));
+        
+        for(int i = 1; i <= n; i++){
+            if(i % seg[0] == 0) dp[0][i] = i / seg[0];
+            else dp[0][i] = -1e9;
+        }
+        
+        for(int ind = 1; ind <= 2; ind++){
+            for(int tar = 1; tar <= n; tar++){
+                int notTake = dp[ind - 1][tar];
+                int take = INT_MIN;
+                if(tar >= seg[ind]) take = 1 + dp[ind][tar - seg[ind]];
+                
+                dp[ind][tar] = max(notTake,take);
+            }
+        }
+        
+        int ans = dp[2][n];
         
         if(ans > 0) return ans;
         return 0;
