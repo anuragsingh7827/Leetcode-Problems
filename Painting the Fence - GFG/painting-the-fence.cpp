@@ -31,8 +31,21 @@ class Solution{
     }
     long long countWays(int n, int k){
         // code here
-        vector<long long> dp(n + 1, -1);
-        long long ans = solve(n,k,dp);
+        vector<long long> dp(n + 1, 0);
+        
+        dp[1] = k;
+        dp[2] = mul(k,k);
+        
+        for(int i = 3; i <= n; i++){
+            long long same = mul(dp[i - 2],k - 1);
+            long long diff = mul(dp[i - 1],k - 1);
+            
+            long long ways = add(same,diff);
+            
+            dp[i] = ways % mod;
+        }
+        
+        long long ans = dp[n];
         return ans;
     }
 };
