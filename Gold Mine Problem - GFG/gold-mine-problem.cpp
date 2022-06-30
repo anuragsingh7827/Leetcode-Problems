@@ -9,15 +9,15 @@ using namespace std;
 
 class Solution{
 public:
-    int solve(int i, int j, int &n, int &m, vector<vector<int>> &M, vector<vector<int>> &dp){
-        if(j == m) return 0;
-        if(i == 0 || i >= n + 1) return -1e9;
+    int solve(int i, int j, int &n, vector<vector<int>> &M, vector<vector<int>> &dp){
+        if(i < 0 || i >= n) return -1e9;
+        if(j == 0) return M[i][0];
         
         if(dp[i][j] != -1) return dp[i][j];
         
-        int op1 = M[i - 1][j] + solve(i - 1,j + 1,n,m,M,dp);
-        int op2 = M[i - 1][j] + solve(i,j + 1,n,m,M,dp);
-        int op3 = M[i - 1][j] + solve(i + 1,j + 1,n,m,M,dp);
+        int op1 = M[i][j] + solve(i - 1,j - 1,n,M,dp);
+        int op2 = M[i][j] + solve(i,j - 1,n,M,dp);
+        int op3 = M[i][j] + solve(i + 1,j - 1,n,M,dp);
         
         return dp[i][j] = max(op1,max(op2,op3));
     }
@@ -25,8 +25,10 @@ public:
     {
         // code here
         int ans = INT_MIN;
-        vector<vector<int>> dp(n + 1, vector<int> (m, -1));
-        for(int i = 1; i < n + 1; i++) ans = max(ans,solve(i,0,n,m,M,dp));
+        vector<vector<int>> dp(n, vector<int> (m, -1));
+        for(int i = 0; i < n; i++){
+            ans = max(ans,solve(i,m - 1,n,M,dp));
+        }
         
         return ans;
     }
