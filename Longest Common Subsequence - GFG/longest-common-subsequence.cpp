@@ -9,27 +9,22 @@ using namespace std;
 class Solution
 {
     public:
+    int solve(int i, int j, string s1, string s2, vector<vector<int>> &dp){
+        if(i < 0 || j < 0) return 0;
+        
+        if(dp[i][j] != -1) return dp[i][j];
+        
+        if(s1[i] == s2[j]) return dp[i][j] = 1 + solve(i - 1,j - 1,s1,s2,dp);
+        
+        return dp[i][j] = max(solve(i,j - 1,s1,s2,dp),solve(i - 1,j,s1,s2,dp));
+    }
     //Function to find the length of longest common subsequence in two strings.
     int lcs(int x, int y, string s1, string s2)
     {
         // your code here
-        int n = s1.length();
-        int m = s2.length();
+        vector<vector<int>> dp(x, vector<int> (y, -1));
         
-        int** dp = new int*[n + 1];
-        for(int i = 0; i < n + 1; i++) dp[i] = new int[m + 1];
-        
-        for(int j = 0; j < m + 1; j++) dp[n][j] = 0;
-        for(int i = 0; i < n + 1; i++) dp[i][m] = 0;
-        
-        for(int i = n - 1; i >= 0; i--){
-            for(int j = m - 1; j >= 0; j--){
-                if(s1[i] == s2[j]) dp[i][j] = 1 + dp[i + 1][j + 1];
-                else dp[i][j] = max(dp[i][j + 1],dp[i + 1][j]);
-            }
-        }
-        
-        return dp[0][0];
+        return solve(x - 1,y - 1,s1,s2,dp);
     }
 };
 
