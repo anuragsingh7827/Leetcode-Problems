@@ -28,21 +28,20 @@ class Solution {
     }
     int numOfSubsets(int arr[], int N, int K) {
         // code here
-        vector<int> prev(K + 1, 0), cur(K + 1, 0);
+        vector<int> prev(K + 1, 0);
         
         for(int i = 1; i <= K; i++){
             if(arr[0] <= i) prev[i] = 1;
         }
         
         for(int ind = 1; ind < N; ind++){
-            for(int k = 1; k <= K; k++){
+            for(int k = K; k >= 1; k--){
                 int notTake = prev[k];
                 int take = 0;
                 if(k / arr[ind] > 0) take = 1 + prev[k / arr[ind]];
                 
-                cur[k] = notTake + take;
+                prev[k] = notTake + take;
             }
-            prev = cur;
         }
         
         
