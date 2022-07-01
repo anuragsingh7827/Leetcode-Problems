@@ -22,18 +22,29 @@ class Solution
     int longestSubsequence(int n, int a[])
     {
         // your code here
-        vector<vector<int>> dp(n + 1, vector<int> (n + 1, 0));
+        // vector<vector<int>> dp(n + 1, vector<int> (n + 1, 0));
         
-        for(int ind = n - 1; ind >= 0; ind--){
-            for(int prevInd = ind - 1; prevInd >= -1; prevInd--){
-                int notTake = dp[ind + 1][prevInd + 1];
-                int take = 0;
-                if(prevInd == -1 || a[ind] > a[prevInd]) take = 1 + dp[ind + 1][ind + 1];
-                dp[ind][prevInd + 1] = max(notTake,take);
+        // for(int ind = n - 1; ind >= 0; ind--){
+        //     for(int prevInd = ind - 1; prevInd >= -1; prevInd--){
+        //         int notTake = dp[ind + 1][prevInd + 1];
+        //         int take = 0;
+        //         if(prevInd == -1 || a[ind] > a[prevInd]) take = 1 + dp[ind + 1][ind + 1];
+        //         dp[ind][prevInd + 1] = max(notTake,take);
+        //     }
+        // }
+        
+        // return dp[0][-1 + 1];
+        vector<int> dp(n, 1);
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < i; j++){
+                if(a[i] > a[j]) dp[i] = max(dp[i],1 + dp[j]);
             }
         }
         
-        return dp[0][-1 + 1];
+        int ans = INT_MIN;
+        for(int i = 0; i < n; i++) ans = max(ans,dp[i]);
+        
+        return ans;
     }
 };
 
