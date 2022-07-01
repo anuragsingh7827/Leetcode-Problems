@@ -22,14 +22,21 @@ class Solution
     int lcs(int x, int y, string s1, string s2)
     {
         // your code here
-        vector<int> prev(y + 1, 0), cur(y + 1, 0);
+        vector<int> prev(y + 1, 0);
         
         for(int i = 1; i <= x; i++){
+            int temp = prev[0];
             for(int j = 1; j <= y; j++){
-                if(s1[i - 1] == s2[j - 1]) cur[j] = 1 + prev[j - 1];
-                else cur[j] = max(cur[j - 1],prev[j]);
+                int val;
+                if(s1[i - 1] == s2[j - 1]){
+                    val = 1 + temp;
+                }
+                else{
+                    val = max(prev[j - 1],prev[j]);
+                }
+                temp = prev[j];
+                prev[j] = val;
             }
-            prev = cur;
         }
         
         
