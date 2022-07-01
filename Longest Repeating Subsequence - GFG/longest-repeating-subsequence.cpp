@@ -17,17 +17,17 @@ class Solution {
 		int LongestRepeatingSubsequence(string str){
 		    // Code here
 		    int n = str.size();
-		    vector<int> prev(n + 1, 0), cur(n + 1, 0);
+		    vector<int> prev(n + 1, 0);
 		    
 		    for(int i = 1; i <= n; i++){
+		        int temp = prev[0];
 		        for(int j = 1; j <= n; j++){
-		            if(str[i - 1] == str[j - 1] && i != j){
-		                cur[j] = 1 + prev[j - 1];
-		            }
-            
-                    else cur[j] = max(cur[j - 1],prev[j]);
+		            int val;
+		            if(str[i - 1] == str[j - 1] && i != j) val = 1 + temp;
+                    else val = max(prev[j - 1],prev[j]);
+                    temp = prev[j];
+                    prev[j] = val;
 		        }
-		        prev = cur;
 		    }
 		    
 		    return prev[n];
