@@ -22,6 +22,21 @@ class Solution
     int longestSubsequence(int n, int a[])
     {
         // your code here
+        vector<int> arr;
+        arr.push_back(a[0]);
+        int len = 1;
+        for(int i = 0; i < n; i++){
+            if(a[i] > arr.back()){
+                arr.push_back(a[i]);
+                len++;
+            }else{
+                int ind = lower_bound(arr.begin(),arr.end(),a[i]) - arr.begin();
+                arr[ind] = a[i];
+            }
+        }
+        
+        return len;
+        
         // vector<vector<int>> dp(n + 1, vector<int> (n + 1, 0));
         
         // for(int ind = n - 1; ind >= 0; ind--){
@@ -34,17 +49,20 @@ class Solution
         // }
         
         // return dp[0][-1 + 1];
-        vector<int> dp(n, 1);
-        for(int i = 0; i < n; i++){
-            for(int j = 0; j < i; j++){
-                if(a[i] > a[j]) dp[i] = max(dp[i],1 + dp[j]);
-            }
-        }
         
-        int ans = INT_MIN;
-        for(int i = 0; i < n; i++) ans = max(ans,dp[i]);
+        // vector<int> dp(n, 1);
+        // for(int i = 0; i < n; i++){
+        //     for(int j = 0; j < i; j++){
+        //         if(a[i] > a[j]) dp[i] = max(dp[i],1 + dp[j]);
+        //     }
+        // }
         
-        return ans;
+        // int ans = INT_MIN;
+        // for(int i = 0; i < n; i++) ans = max(ans,dp[i]);
+        
+        // return ans;
+        
+        
     }
 };
 
