@@ -41,38 +41,39 @@ int solve(int i, int j, int k, string &a, string &b, string &c, vector<vector<ve
 int LCSof3 (string a, string b, string c, int n1, int n2, int n3)
 {
     // your code here
-    vector<vector<vector<int>>> dp(n1 + 1, vector<vector<int>> (n2 + 1, vector<int> (n3 + 1, 0)));
+    vector<vector<int>> prev(n2 + 1, vector<int> (n3 + 1, 0)), cur(n2 + 1, vector<int> (n3 + 1, 0));
     
     for(int i = 1; i <= n1; i++){
         for(int j = 1; j <= n2; j++){
             for(int k = 1; k <= n3; k++){
                 if(a[i - 1] == b[j - 1] && b[j - 1] == c[k - 1]){
                     
-                    dp[i][j][k] =  1 + dp[i - 1][j - 1][k - 1];
+                    cur[j][k] =  1 + prev[j - 1][k - 1];
                     
                 }
                 else if(a[i - 1] == b[j - 1] && b[j - 1] != c[k - 1]){
                     
-                    dp[i][j][k] = max(dp[i - 1][j - 1][k], dp[i][j][k - 1]);
+                    cur[j][k] = max(prev[j - 1][k], cur[j][k - 1]);
                     
                 }else if(a[i - 1] == c[k - 1] && c[k - 1] != b[j - 1]){
                     
-                    dp[i][j][k] = max(dp[i - 1][j][k - 1], dp[i][j - 1][k]);
+                    cur[j][k] = max(prev[j][k - 1], cur[j - 1][k]);
                     
                 }else if(b[j - 1] == c[k - 1] && c[k - 1] != a[i - 1]){
                     
-                    dp[i][j][k] = max(dp[i][j - 1][k - 1], dp[i - 1][j][k]);
+                    cur[j][k] = max(cur[j - 1][k - 1], prev[j][k]);
                     
                 }else if(a[i - 1] != b[j - 1] && b[j - 1] != c[k - 1]){
-                    int op1 = dp[i][j - 1][k - 1];
-                    int op2 = dp[i - 1][j][k - 1];
-                    int op3 = dp[i - 1][j - 1][k];
+                    int op1 = cur[j - 1][k - 1];
+                    int op2 = prev[j][k - 1];
+                    int op3 = prev[j - 1][k];
                     
-                    dp[i][j][k] = max(op1,max(op2,op3));
+                    cur[j][k] = max(op1,max(op2,op3));
                 }
             }
         }
+        prev = cur;
     }
     
-    return dp[n1][n2][n3];
+    return prev[n2][n3];
 }
