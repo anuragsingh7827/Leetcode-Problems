@@ -28,9 +28,31 @@ class Solution
     int eggDrop(int e, int f) 
     {
         // your code here
-        vector<vector<int>> dp(e + 1, vector<int> (f + 1, -1));
+        vector<vector<int>> dp(e + 1, vector<int> (f + 1, 0));
         
-        return solve(e,f,dp);
+        for(int i = 0; i <= f; i++) dp[1][i] = i;
+        
+        for(int i = 2; i <= e; i++){
+            dp[i][0] = 0;
+            dp[i][1] = 1;
+        }
+        
+        for(int i = 2; i <= e; i++){
+            for(int j = 2; j <= f; j++){
+                int ans = INT_MAX;
+                for(int k = 1; k <= f; k++){
+                    int breakEgg = dp[i - 1][k - 1];
+                    int notBreakEgg = dp[i][j - k];
+                    
+                    int moves = 1 + max(breakEgg, notBreakEgg);
+                    ans = min(ans,moves);
+                }
+                
+                dp[i][j] = ans;
+            }
+        }
+        
+        return dp[e][f];
     }
 };
 
