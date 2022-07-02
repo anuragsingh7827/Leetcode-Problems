@@ -24,22 +24,23 @@ public:
     int maximumPath(int N, vector<vector<int>> Matrix)
     {
         // code here
-        vector<int> prev(N + 2, 0), cur(N + 2, 0);
+        vector<int> prev(N + 2, 0);
         
         for(int j = 1; j <= N; j++) prev[j] = Matrix[0][j - 1];
         
         prev[0] = prev[N + 1] = -1e9;
         
         for(int i = 1; i < N; i++){
-            cur[0] = cur[N + 1] = -1e9;
+            int temp = prev[0];
             for(int j = 1; j <= N; j++){
                 int up = Matrix[i][j - 1] + prev[j];
-                int dgl = Matrix[i][j - 1] + prev[j - 1];
+                int dgl = Matrix[i][j - 1] + temp;
                 int dgr = Matrix[i][j - 1] + prev[j + 1];
                 
-                cur[j] = max(up, max(dgl,dgr));
+                temp = prev[j];
+                prev[j] = max(up, max(dgl,dgr));
             }
-            prev = cur;
+            
         }
         
         int ans = 0;
