@@ -29,7 +29,7 @@ class Solution{
 	int minimumCost(int cost[], int N, int W) 
 	{ 
         // Your code goes here
-        vector<int> prev(W + 1, 0), cur(W + 1, 0);
+        vector<int> prev(W + 1, 0);
         
         for(int j = 1; j <= W; j++){
             if(cost[0] != -1) prev[j] = j * cost[0];
@@ -41,11 +41,10 @@ class Solution{
                 int notTake = prev[tar];
         	    int take = INT_MAX;
         	    int packWgt = ind + 1;
-        	    if(cost[ind] != -1 && packWgt <= tar) take = cost[ind] + cur[tar - packWgt];
+        	    if(cost[ind] != -1 && packWgt <= tar) take = cost[ind] + prev[tar - packWgt];
         	    
-        	    cur[tar] = min(notTake,take);
+        	    prev[tar] = min(notTake,take);
             }
-            prev = cur;
         }
         
         
