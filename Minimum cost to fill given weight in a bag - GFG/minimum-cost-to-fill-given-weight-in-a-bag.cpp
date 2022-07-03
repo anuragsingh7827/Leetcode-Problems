@@ -29,9 +29,26 @@ class Solution{
 	int minimumCost(int cost[], int N, int W) 
 	{ 
         // Your code goes here
-        vector<vector<int>> dp(N, vector<int> (W + 1, -1));
+        vector<vector<int>> dp(N, vector<int> (W + 1, 0));
         
-        int ans = solve(N - 1,W,cost,dp);
+        for(int i = 1; i <= W; i++){
+            if(cost[0] != -1) dp[0][i] = i * cost[0];
+            else dp[0][i] = 1e9;
+        }
+        
+        for(int ind = 1; ind < N; ind++){
+            for(int tar = 1; tar <= W; tar++){
+                int notTake = dp[ind - 1][tar];
+        	    int take = INT_MAX;
+        	    int packWgt = ind + 1;
+        	    if(cost[ind] != -1 && packWgt <= tar) take = cost[ind] + dp[ind][tar - packWgt];
+        	    
+        	    dp[ind][tar] = min(notTake,take);
+            }
+        }
+        
+        
+        int ans = dp[N - 1][W];
         
         if(ans >= 1e9) return -1;
         return ans;
