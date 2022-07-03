@@ -9,16 +9,15 @@ class Solution{
     int longestCommonSubstr (string S1, string S2, int n, int m)
     {
         // your code here
-        vector<int> prev(m + 1, 0), cur(m + 1, 0);
+        vector<int> prev(m + 1, 0);
         
         int ans = 0;
         for(int i = 1; i <= n; i++){
-            for(int j = 1; j <= m; j++){
-                if(S1[i - 1] == S2[j - 1]) cur[j] = 1 + prev[j - 1];
-                else cur[j] = 0;
-                ans = max(ans,cur[j]);
+            for(int j = m; j >= 1; j--){
+                if(S1[i - 1] == S2[j - 1]) prev[j] = 1 + prev[j - 1];
+                else prev[j] = 0;
+                ans = max(ans,prev[j]);
             }
-            prev = cur;
         }
         
         return ans;
