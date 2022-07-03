@@ -22,22 +22,20 @@ long long int count(long long int n)
 {
     vector<int> scores{3,5,10};
     
-    vector<int> prev(n + 1, 0), cur(n + 1, 0);
+    vector<int> prev(n + 1, 0);
     
     prev[0] = 1;
     
     for(int tar = 0; tar <= n; tar++) prev[tar] = tar % scores[0] == 0;
     
     for(int ind = 1; ind <= 2; ind++){
-        cur[0] = 1;
         for(int tar = 1; tar <= n; tar++){
             long long notTake = prev[tar];
             long long take = 0;
-            if(tar >= scores[ind]) take = cur[tar - scores[ind]];
+            if(tar >= scores[ind]) take = prev[tar - scores[ind]];
             
-            cur[tar] = notTake + take;
+            prev[tar] = notTake + take;
         }
-        prev = cur;
     }
     
     long long ans = prev[n];
