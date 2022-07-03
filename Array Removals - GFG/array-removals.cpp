@@ -15,7 +15,7 @@ class Solution{
         
         if(dp[i][j] != -1) return dp[i][j];
         
-        if(a[j] - a[i] <= k) return 0;
+        if(a[j] - a[i] <= k) return dp[i][j] = 0;
         
         return dp[i][j] = min(1 + solve(i + 1,j,a,k,dp),1 + solve(i,j - 1,a,k,dp));
     }
@@ -26,6 +26,8 @@ class Solution{
         sort(a.begin(),a.end());
         
         vector<vector<int>> dp(n + 1, vector<int> (n + 1, -1));
+        
+        
         
         return solve(0,n - 1,a,k,dp);
     }
