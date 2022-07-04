@@ -24,7 +24,7 @@ public:
     int knapSack(int N, int W, int val[], int wt[])
     {
         // code here
-        vector<int> prev(W + 1, 0), cur(W + 1, 0);
+        vector<int> prev(W + 1, 0);
         
         for(int tar = 1; tar <= W; tar++) prev[tar] = (tar / wt[0]) * val[0];
         
@@ -32,11 +32,10 @@ public:
             for(int tar = 1; tar <= W; tar++){
                 int notTake = prev[tar];
                 int take = INT_MIN;
-                if(tar >= wt[ind]) take = val[ind] + cur[tar - wt[ind]];
+                if(tar >= wt[ind]) take = val[ind] + prev[tar - wt[ind]];
                 
-                cur[tar] = max(notTake,take);
+                prev[tar] = max(notTake,take);
             }
-            prev = cur;
         }
         
         return prev[W];
