@@ -50,7 +50,6 @@ Complete&nbsp;<strong>wordBreak()</strong>&nbsp;function which takes a string an
 
 <p><span style="font-size:18px"><strong>Constraints</strong>:<br>
 1 ≤ N ≤ 12<br>
-1 ≤ s ≤ 1100 , where s =&nbsp;length of string A<br>
-&nbsp;The length of each word is less than 15.</span></p>
+1 ≤ s ≤ 1100 , where s =&nbsp;length of string A</span></p>
  <p></p>
             </div>
