@@ -43,9 +43,9 @@ public:
         
         int maxi = 0;
         int x, y;
-        for(int i = n - 1; i >= 0; i--){
+        for(int i = 0; i < n; i++){
             for(int j = 0; j < n; j++){
-                if(dp[i][j] >= maxi && j - i + 1 == dp[i][j]){
+                if(dp[i][j] > maxi && j - i + 1 == dp[i][j]){
                     maxi = dp[i][j];
                     x = i;
                     y = j;
