@@ -42,19 +42,19 @@ public:
         }
         
         int maxi = 0;
-        int x, y;
+        int start, end;
         for(int i = 0; i < n; i++){
             for(int j = 0; j < n; j++){
                 if(dp[i][j] > maxi && j - i + 1 == dp[i][j]){
                     maxi = dp[i][j];
-                    x = i;
-                    y = j;
+                    start = i;
+                    end = j;
                 }
             }
         }
         
         string ans = "";
-        for(int k = x; k <= y; k++) ans.push_back(s[k]);
+        for(int k = start; k <= end; k++) ans.push_back(s[k]);
         
         return ans;
     }
