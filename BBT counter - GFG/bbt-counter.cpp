@@ -27,9 +27,19 @@ class Solution {
     }
     long long int countBT(int h) { 
         // code here
-        vector<int> dp(h + 1, -1);
+        vector<long long> dp(h + 1, 0);
         
-        long long ans = countBBTS(h,dp) % mod;
+        dp[0] = dp[1] = 1;
+        
+        for(int i = 2; i <= h; i++){
+            long long x = dp[i - 1] % mod;
+            long long y = dp[i - 2] % mod;
+            long long cnt = add(mul(2,mul(x,y)),mul(x,x));
+            
+            dp[i] = cnt % mod;
+        }
+        
+        long long ans = dp[h] % mod;
         
         return ans;
     }
