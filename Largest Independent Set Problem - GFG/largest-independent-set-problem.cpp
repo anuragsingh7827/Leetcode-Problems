@@ -109,18 +109,18 @@ int solve(Node* root, unordered_map<Node*,int> &dp){
     
     if(dp.count(root)) return dp[root];
     
-    if(root -> left == NULL && root -> right == NULL) return 1;
+    if(root -> left == NULL && root -> right == NULL) return dp[root] = 1;
     
     else if(root -> left != NULL && root -> right == NULL){
         int notTake = solve(root -> left,dp);
         int take = 1 + solve(root -> left -> left,dp) + solve(root -> left -> right,dp);
-        return max(notTake,take);
+        return dp[root] = max(notTake,take);
     }
     
     else if(root -> left == NULL && root -> right != NULL){
         int notTake = solve(root -> right,dp);
         int take = 1 + solve(root -> right -> right,dp) + solve(root -> right -> left,dp);
-        return max(notTake,take);
+        return dp[root] = max(notTake,take);
     }
     
     else{
