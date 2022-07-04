@@ -24,9 +24,21 @@ public:
     int knapSack(int N, int W, int val[], int wt[])
     {
         // code here
-        vector<vector<int>> dp(N, vector<int> (W + 1, -1));
+        vector<vector<int>> dp(N, vector<int> (W + 1, 0));
         
-        return unboundedKnapsack(N - 1,W,wt,val,dp);
+        for(int tar = 1; tar <= W; tar++) dp[0][tar] = (tar / wt[0]) * val[0];
+        
+        for(int ind = 1; ind < N; ind++){
+            for(int tar = 1; tar <= W; tar++){
+                int notTake = dp[ind - 1][tar];
+                int take = INT_MIN;
+                if(tar >= wt[ind]) take = val[ind] + dp[ind][tar - wt[ind]];
+                
+                dp[ind][tar] = max(notTake,take);
+            }
+        }
+        
+        return dp[N - 1][W];
     }
 };
 
