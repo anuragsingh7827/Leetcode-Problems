@@ -21,9 +21,19 @@ class Solution{
     long long maximumAmount(int arr[], int n){
         // Your code here
         
-        vector<vector<int>> dp(n, vector<int> (n, -1));
+        vector<vector<int>> dp(n + 2, vector<int> (n + 1, 0));
         
-        return solve(0,n - 1,arr,dp);
+        for(int i = n - 1; i >= 0; i--){
+            for(int j = i + 1; j < n; j++){
+                int op1 = dp[i + 2][j];
+                int op2 = dp[i + 1][j - 1];
+                int op3 = dp[i][j - 2];
+                
+                dp[i][j] = max(arr[i] + min(op1,op2), arr[j] + min(op2,op3));
+            }
+        }
+        
+        return dp[0][n - 1];
     }
 };
 
