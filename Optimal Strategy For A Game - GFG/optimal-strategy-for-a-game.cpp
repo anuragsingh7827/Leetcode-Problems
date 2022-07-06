@@ -21,19 +21,21 @@ class Solution{
     long long maximumAmount(int arr[], int n){
         // Your code here
         
-        vector<vector<int>> dp(n + 2, vector<int> (n + 1, 0));
+        vector<int> ahead2(n + 1, 0), ahead1(n + 1, 0), cur(n + 1, 0);
         
         for(int i = n - 1; i >= 0; i--){
             for(int j = i + 1; j < n; j++){
-                int op1 = dp[i + 2][j];
-                int op2 = dp[i + 1][j - 1];
-                int op3 = dp[i][j - 2];
+                int op1 = ahead2[j];
+                int op2 = ahead1[j - 1];
+                int op3 = cur[j - 2];
                 
-                dp[i][j] = max(arr[i] + min(op1,op2), arr[j] + min(op2,op3));
+                cur[j] = max(arr[i] + min(op1,op2), arr[j] + min(op2,op3));
             }
+            ahead2 = ahead1;
+            ahead1 = cur;
         }
         
-        return dp[0][n - 1];
+        return ahead1[n - 1];
     }
 };
 
