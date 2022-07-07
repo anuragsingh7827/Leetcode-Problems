@@ -57,9 +57,52 @@ public:
         // code here
         int n = S.size();
         
-        vector<vector<pair<int,int>>> dp(n, vector<pair<int,int>> (n, {-1,-1}));
+        vector<vector<pair<int,int>>> dp(n, vector<pair<int,int>> (n, {0,0}));
         
-        int ans = solve(0,n - 1,S,dp).first % mod;
+        for(int i = 0; i < n; i++){
+            if(S[i] == 'T') dp[i][i] = {1,0};
+            else if(S[i] == 'F') dp[i][i] = {0,1};
+        } 
+        
+        for(int i = n - 1; i >= 0; i--){
+            for(int j = i + 1; j < n; j++){
+                int trueWays = 0;
+                int falseWays = 0;
+                
+                for(int k = i + 1; k <= j - 1; k += 2){
+                    auto left = dp[i][k - 1];
+                    auto right = dp[k + 1][j];
+                    
+                    int leftTrue = left.first % mod;
+                    int leftFalse = left.second % mod;
+                    int rightTrue = right.first % mod;
+                    int rightFalse = right.second % mod;
+                    
+                    if(S[k] == '&'){
+                        trueWays += ((leftTrue % mod) * (rightTrue % mod)) % mod;
+                        falseWays += ((leftTrue % mod * rightFalse % mod) % mod + 
+                                        (leftFalse % mod * rightTrue % mod) % mod + 
+                                        (leftFalse % mod * rightFalse % mod) % mod) % mod;
+                    }
+                    else if(S[k] == '|'){
+                        trueWays += ((leftTrue % mod * rightFalse % mod) % mod + 
+                                        (leftFalse % mod * rightTrue % mod) % mod +
+                                        (leftTrue % mod * rightTrue % mod) % mod) % mod;
+                        falseWays += (leftFalse % mod * rightFalse % mod) % mod;
+                    }
+                            
+                    else if(S[k] == '^'){
+                        trueWays += ((leftTrue % mod * rightFalse % mod) % mod + 
+                                    (leftFalse % mod * rightTrue % mod) % mod) % mod;
+                        falseWays += ((leftTrue % mod * rightTrue % mod) % mod + 
+                                    (leftFalse % mod * rightFalse % mod) % mod) % mod;
+                    }
+                }
+                dp[i][j] = {trueWays % mod,falseWays % mod};
+            }
+        }
+        
+        int ans = dp[0][n - 1].first % mod;
         
         return ans % mod;
     }
