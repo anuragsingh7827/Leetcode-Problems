@@ -30,9 +30,28 @@ class Solution{
     int optimalSearchTree(int keys[], int freq[], int n)
     {
         // code here
-        vector<vector<int>> dp(n, vector<int> (n, -1));
+        vector<vector<int>> dp(n + 1, vector<int> (n, 0));
         
-        return solve(0,n - 1,freq,dp);
+        for(int s = n - 1; s >= 0; s--){
+            for(int e = 0; e < n; e++){
+                if(s > e) continue;
+                int totF = 0;
+                for(int i = s; i <= e; i++) totF += freq[i];
+                
+                int cost = INT_MAX;
+                for(int i = s; i <= e; i++){
+                    int op1 = 0;
+                    if(i - 1 >= 0) op1 = dp[s][i - 1];
+                    int op2 = dp[i + 1][e];
+                    
+                    cost = min(cost,totF + op1 + op2);
+                }
+                
+                dp[s][e] = cost;
+            }
+        }
+        
+        return dp[0][n - 1];
     }
 };
 
