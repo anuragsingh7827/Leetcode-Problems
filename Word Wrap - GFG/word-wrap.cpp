@@ -8,38 +8,29 @@ using namespace std;
 //User function Template for C++
 
 class Solution {
-    int solve(vector<int> nums, int n, int k, int** dp, int i, int s){
-        
-        if(i == n) return dp[i][s] = 0;
-        
-        
-        if(dp[i][s] != -1) return dp[i][s];
-        
-        if(s == k) return dp[i][s] = solve(nums,n,k,dp,i + 1,s - nums[i]);
-        
-        else if(s > nums[i]){
-            int cost1 = (s * s) + solve(nums,n,k,dp,i,k);
-            int cost2 = solve(nums,n,k,dp,i + 1,s - nums[i] - 1);
-            
-            return dp[i][s] = min(cost1,cost2);
-        }
-        
-        else if(s <= nums[i]) return dp[i][s] = (s * s) + solve(nums,n,k,dp,i,k);
-    }
 public:
+    int solve(int ind, int x, vector<int> nums, int k, int n, vector<vector<int>> &dp){
+        if(ind == n) return 0;
+        
+        if(dp[ind][x] != -1) return dp[ind][x];
+        
+        if(x == k) return dp[ind][x] = solve(ind + 1,x - nums[ind],nums,k,n,dp);
+        
+        int notPlace = (x * x) + solve(ind,k,nums,k,n,dp);
+        int place = INT_MAX;
+        int wordSpace = 1 + nums[ind];
+        if(x >= wordSpace) place = solve(ind + 1,x - wordSpace,nums,k,n,dp);
+        
+        return dp[ind][x] = min(notPlace,place);
+    }
     int solveWordWrap(vector<int>nums, int k) 
     { 
         // Code here
         int n = nums.size();
         
-        int** dp = new int*[n + 1];
-        for(int i = 0; i < n + 1; i++) dp[i] = new int[k + 1];
+        vector<vector<int>> dp(n, vector<int> (k + 1, -1));
         
-        for(int i = 0; i < n + 1; i++){
-            for(int j = 0; j < k + 1; j++) dp[i][j] = -1;
-        }
-        
-        return solve(nums,n,k,dp,0,k);
+        return solve(0,k,nums,k,n,dp);
     } 
 };
 
