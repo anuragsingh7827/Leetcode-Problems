@@ -35,8 +35,20 @@ public:
     {
         // code here
         int n = str.size();
-        vector<int> dp(n, -1);
-        return solve(0,str,n,dp) - 1;
+        vector<int> dp(n + 1, 0);
+        
+        for(int i = n - 1; i >= 0; i--){
+            int cuts = INT_MAX;
+            for(int j = i; j < n; j++){
+                if(isPalindrome(i,j,str)){
+                    cuts = min(cuts,1 + dp[j + 1]);
+                }
+            }
+            
+            dp[i] = cuts;
+        }
+        
+        return dp[0] - 1;
     }
 };
 
