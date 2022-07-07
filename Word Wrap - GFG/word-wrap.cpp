@@ -28,23 +28,24 @@ public:
         // Code here
         int n = nums.size();
         
-        vector<vector<int>> dp(n + 1, vector<int> (k + 1, 0));
+        vector<int> ahead(k + 1, 0), cur(k + 1, 0);
         
         for(int ind = n - 1; ind >= 0; ind--){
             for(int x = k; x >= 0; x--){
-                if(x == k) dp[ind][x] = dp[ind + 1][x - nums[ind]];
+                if(x == k) cur[x] = ahead[x - nums[ind]];
                 else{
-                    int notPlace = (x * x) + dp[ind][k];
+                    int notPlace = (x * x) + cur[k];
                     int place = INT_MAX;
                     int wordSpace = 1 + nums[ind];
-                    if(x >= wordSpace) place = dp[ind + 1][x - wordSpace];
+                    if(x >= wordSpace) place = ahead[x - wordSpace];
                     
-                    dp[ind][x] = min(notPlace,place);
+                    cur[x] = min(notPlace,place);
                 }
             }
+            ahead = cur;
         }
         
-        return dp[0][k];
+        return ahead[k];
     } 
 };
 
