@@ -29,27 +29,28 @@ class Solution {
     }
     int maxProfit(int K, int N, int A[]) {
         // code here
-        vector<vector<vector<int>>> dp(N + 1, vector<vector<int>> (2, vector<int> (K + 1, 0)));
+        vector<vector<int>> ahead(2, vector<int> (K + 1, 0)), cur(2, vector<int> (K + 1, 0));
         
         for(int ind = N - 1; ind >= 0; ind--){
             for(int buy = 0; buy <= 1; buy++){
                 for(int cap = 1; cap <= K; cap++){
                     if(buy){
-                        int op1 = -A[ind] + dp[ind + 1][0][cap];
-                        int op2 = dp[ind + 1][1][cap];
+                        int op1 = -A[ind] + ahead[0][cap];
+                        int op2 = ahead[1][cap];
                         
-                        dp[ind][buy][cap] = max(op1,op2);
+                        cur[buy][cap] = max(op1,op2);
                     }else{
-                        int op1 = A[ind] + dp[ind + 1][1][cap - 1];
-                        int op2 = dp[ind + 1][0][cap];
+                        int op1 = A[ind] + ahead[1][cap - 1];
+                        int op2 = ahead[0][cap];
                         
-                        dp[ind][buy][cap] = max(op1,op2);
+                        cur[buy][cap] = max(op1,op2);
                     }
                 }
             }
+            ahead = cur;
         }
         
-        return dp[0][1][K];
+        return ahead[1][K];
     }
 };
 
