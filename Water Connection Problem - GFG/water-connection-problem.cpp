@@ -6,31 +6,67 @@ using namespace std;
 class Solution
 {
     public:
+    void dfs(int start, vector<pair<int,int>>* adj, vector<int> &vis, vector<int> &terminals, int &mini){
+        int k = 0;
+        for(auto &it : adj[start]){
+            if(vis[it.first] == 0){
+                k = 1;
+                break;
+            }
+        }
+        if(k == 0){
+            vis[start] = 1;
+            terminals.push_back(start);
+            return;
+        }
+        
+        vis[start] = 1;
+        for(auto &it : adj[start]){
+            if(vis[it.first] == 0){
+                mini = min(mini,it.second);
+                dfs(it.first,adj,vis,terminals,mini);
+            }
+        }
+    }
     vector<vector<int>> solve(int n,int p,vector<int> a,vector<int> b,vector<int> d)
     {
         // code here
-        vector<int> v(21, 0), di(21, 0);
-        unordered_map<int,int> h;
-        
-        for(int i = 0; i < p ; i++){
-            v[a[i]] = b[i];
-            di[a[i]] = d[i];
-            h[b[i]] = a[i];
+        vector<pair<int,int>>* adj = new vector<pair<int,int>> [n + 1];
+        for(int i = 0; i < p; i++){
+            adj[a[i]].push_back({b[i],d[i]});
+            adj[b[i]].push_back({a[i],d[i]});
         }
         
+        unordered_map<int,bool> h;
+        for(int i = 0; i < p; i++) h[a[i]] = true;
+        
+        unordered_map<int,int> par;
+        for(int i = 0; i < p; i++) par[b[i]] = a[i];
+        
         vector<vector<int>> ans;
-        for(int i = 0; i < 21; i++){
-            if(h[i] == 0 && v[i] != 0){
-                int j = i;
-                vector<int> temp(3);
-                temp[0] = j;
+        vector<int> vis(n + 1, 0);
+        for(int i = 1; i <= n; i++){
+            if(vis[i] == 0 && par[i] == 0 && h[i]){
+                vector<int> terminals;
+                terminals.push_back(i);
+                
                 int mini = INT_MAX;
-                while(v[j] != 0){
-                    mini = min(mini,di[j]);
-                    j = v[j];
+                dfs(i,adj,vis,terminals,mini);
+                
+                int j = terminals.size();
+                int first = terminals[j - 1];
+                int last = terminals[j - 2];
+                
+                vector<int> temp(3); 
+                if(h[first]){
+                    temp[0] = first;
+                    temp[1] = last;
+                    temp[2] = mini;
+                }else{
+                    temp[0] = last;
+                    temp[1] = first;
+                    temp[2] = mini;
                 }
-                temp[1] = j;
-                temp[2] = mini;
                 ans.push_back(temp);
             }
         }
