@@ -10,7 +10,7 @@ using namespace std;
 class Solution{
   public:
     /*You are required to complete this method */
-    bool solve(int i, int j, int k, string a, string b, string c, vector<vector<int>> &dp){
+bool solve(int i, int j, int k, string a, string b, string c, vector<vector<int>> &dp){
         if(i == 0 && j >= 1){
             while(j >= 1 && k >= 1){
                 if(b[j - 1] != c[k - 1]) return false;
