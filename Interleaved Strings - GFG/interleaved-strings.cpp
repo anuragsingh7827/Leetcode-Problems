@@ -44,16 +44,16 @@ bool solve(int i, int j, int k, string a, string b, string c, vector<vector<int>
         else return dp[i][j] = false;
         
     }
-    bool isInterleave(string A, string B, string C) 
+    bool isInterleave(string a, string b, string c) 
     {
         //Your code here
-        int n = A.size();
-        int m = B.size();
-        int l = C.size();
+        int n = a.size();
+        int m = b.size();
+        int l = c.size();
         
         vector<vector<int>> dp(n + 1, vector<int> (m + 1, -1));
         
-        return solve(n,m,l,A,B,C,dp);
+        return solve(n,m,l,a,b,c,dp);
     }
 
 };
