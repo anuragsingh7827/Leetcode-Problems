@@ -6,27 +6,15 @@ using namespace std;
 class Solution
 {
     public:
-    void dfs(int start, vector<pair<int,int>>* adj, vector<int> &vis, vector<int> &terminals, int &mini){
-        int k = 0;
-        for(auto &it : adj[start]){
-            if(vis[it.first] == 0){
-                k = 1;
-                break;
-            }
-        }
-        if(k == 0){
-            vis[start] = 1;
-            terminals.push_back(start);
-            return;
-        }
-        
+    void dfs(int start, vector<pair<int,int>>* adj, vector<int> &vis, int &last, int &mini){
         vis[start] = 1;
         for(auto &it : adj[start]){
             if(vis[it.first] == 0){
                 mini = min(mini,it.second);
-                dfs(it.first,adj,vis,terminals,mini);
+                dfs(it.first,adj,vis,last,mini);
             }
         }
+        if(last == -1) last = start;
     }
     vector<vector<int>> solve(int n,int p,vector<int> a,vector<int> b,vector<int> d)
     {
@@ -47,26 +35,14 @@ class Solution
         vector<int> vis(n + 1, 0);
         for(int i = 1; i <= n; i++){
             if(vis[i] == 0 && par[i] == 0 && h[i]){
-                vector<int> terminals;
-                terminals.push_back(i);
-                
+                int last = -1;
                 int mini = INT_MAX;
-                dfs(i,adj,vis,terminals,mini);
-                
-                int j = terminals.size();
-                int first = terminals[j - 1];
-                int last = terminals[j - 2];
+                dfs(i,adj,vis,last,mini);
                 
                 vector<int> temp(3); 
-                if(h[first]){
-                    temp[0] = first;
-                    temp[1] = last;
-                    temp[2] = mini;
-                }else{
-                    temp[0] = last;
-                    temp[1] = first;
-                    temp[2] = mini;
-                }
+                temp[0] = i;
+                temp[1] = last;
+                temp[2] = mini;
                 ans.push_back(temp);
             }
         }
