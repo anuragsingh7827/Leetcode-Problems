@@ -35,8 +35,8 @@ public:
     {
         // code here
         //it is a greedy aproach as there is uniformity in the the given denominations array that is 
-        // it is sorted. Also its time complexity will be linear as on each index 'ind' we are making only
-        // 1 recursive call
+        // it is sorted and the first denomination is 1. Also its time complexity will be linear 
+        //as on each index 'ind' we are making only 1 recursive call.
         
         vector<int> den{1, 2, 5, 10, 20, 50, 100, 200, 500, 2000};
         
