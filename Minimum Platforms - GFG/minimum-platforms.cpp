@@ -16,9 +16,9 @@ class Solution{
     	sort(arr,arr + n);
     	sort(dep,dep + n);
     	
-    	int i = 0;
+    	int i = 1;
     	int j = 0;
-    	int cnt = 0;
+    	int cnt = 1;
     	int maxi = 1;
     	while(i < n && j < n){
     	    if(arr[i] <= dep[j]){
