@@ -24,7 +24,7 @@ class Solution{
 	int minCoins(int coins[], int M, int V) 
 	{ 
 	    // Your code goes here
-	    vector<int> prev(V + 1, 0), cur(V + 1, 0);
+	    vector<int> prev(V + 1, 0);
 	    
 	    for(int tar = 1; tar <= V; tar++){
 	        if(tar % coins[0] == 0) prev[tar] = tar / coins[0];
@@ -35,11 +35,10 @@ class Solution{
 	        for(int tar = 1; tar <= V; tar++){
 	            int notTake = prev[tar];
         	    int take = INT_MAX;
-        	    if(tar >= coins[ind]) take = 1 + cur[tar - coins[ind]];
+        	    if(tar >= coins[ind]) take = 1 + prev[tar - coins[ind]];
         	    
-        	    cur[tar] = min(notTake,take);
+        	    prev[tar] = min(notTake,take);
 	        }
-	        prev = cur;
 	    }
 	    
 	    int ans = prev[V];
