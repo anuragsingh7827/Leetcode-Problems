@@ -30,11 +30,13 @@ public:
                 sum1 -= S1[i];
                 i++;
                 minSum = min(sum1,min(sum2,sum3));
-            }else if(sum2 > minSum){
+            }
+            if(sum2 > minSum){
                 sum2 -= S2[j];
                 j++;
                 minSum = min(sum1,min(sum2,sum3));
-            }else if(sum3 > minSum){
+            }
+            if(sum3 > minSum){
                 sum3 -= S3[k];
                 k++;
                 minSum = min(sum1,min(sum2,sum3));
