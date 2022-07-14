@@ -11,21 +11,22 @@ class Solution
     long long minCost(long long arr[], long long n) {
         // Your code here
         priority_queue<long long,vector<long long>,greater<long long>> minHeap;
-        
         for(int i = 0; i < n; i++) minHeap.push(arr[i]);
         
-        long long ans = 0;
-        while(minHeap.size() != 1){
-            long long first = minHeap.top();
+
+        long long minCost = 0;
+        while(minHeap.size() > 1){
+            long long smallest = minHeap.top();
             minHeap.pop();
-            long long second = minHeap.top();
+            long long secondSmallest = minHeap.top();
             minHeap.pop();
-            long long sum = first + second;
-            ans += sum;
+            
+            long long sum = smallest + secondSmallest;
+            minCost += sum;
             minHeap.push(sum);
         }
         
-        return ans;
+        return minCost;
     }
 };
 
