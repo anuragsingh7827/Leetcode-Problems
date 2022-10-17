@@ -1,10 +1,10 @@
-// { Driver Code Starts
+//{ Driver Code Starts
 /* Driver program to test above function */
 
 #include<bits/stdc++.h>
 using namespace std;
 
- // } Driver Code Ends
+// } Driver Code Ends
 //Back-end complete function Template for C++
 class node{
 public:
@@ -19,33 +19,32 @@ public:
 };
 class Solution{
     public:
-    void searchLGE(node* &root, int element, node* &temp){
+    void buildTree(node* &root, int data, int &suc){
         if(root == NULL){
-            root = new node(element);
+            root = new node(data);
             return;
         }
         
-        if(root -> data <= element) searchLGE(root -> right,element,temp);
-        else if(root -> data > element){
-            temp = root;
-            searchLGE(root -> left,element,temp);
+        if(data >= root -> data) buildTree(root -> right,data,suc);
+        else{
+            suc = root -> data;
+            buildTree(root -> left,data,suc);
         }
     }
     vector<int> findLeastGreater(vector<int>& arr, int n) {
         vector<int> ans(n);
         node* root = NULL;
         for(int i = n - 1; i >= 0; i--){
-            node* temp = NULL;
-            searchLGE(root,arr[i],temp);
-            if(temp) ans[i] = temp -> data;
-            else ans[i] = -1;
+            int suc = -1;
+            buildTree(root,arr[i],suc);
+            ans[i] = suc;
         }
         
         return ans;
     }
 };
 
-// { Driver Code Starts.
+//{ Driver Code Starts.
 int main()
 {
 	int t;
@@ -67,4 +66,5 @@ int main()
 	}
 	return 0;
 }
-  // } Driver Code Ends
+
+// } Driver Code Ends
